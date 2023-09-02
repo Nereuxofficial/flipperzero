@@ -1,0 +1,8 @@
+tools/src/proto/pb.rs linguist-generated=true
+tools/src/proto/pb_app.rs linguist-generated=true
+tools/src/proto/pb_desktop.rs linguist-generated=true
+tools/src/proto/pb_gpio.rs linguist-generated=true
+tools/src/proto/pb_gui.rs linguist-generated=true
+tools/src/proto/pb_property.rs linguist-generated=true
+tools/src/proto/pb_storage.rs linguist-generated=true
+tools/src/proto/pb_system.rs linguist-generated=true
