@@ -11,13 +11,6 @@ on:
       - completed
 env:
   CARGO_TERM_COLOR: always
-github-token:
-  action-input:
-    input: github_token
-    is-default: true
-  permissions:
-    contents: write
-    contents-reason: to push local changes
 jobs:
   build:
     name: Build nightly
@@ -61,5 +54,4 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: nightly
