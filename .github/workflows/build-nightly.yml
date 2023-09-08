@@ -36,7 +36,12 @@ jobs:
       - name: Install libudev-dev
         run: sudo apt install libudev-dev
       - name: ls for debug
-        run: ls -la
+        run: |
+          ls -la
+          ls -la flipperzero-firmware
+          ls -la flipperzero-firmware/build
+          ls -la flipperzero-firmware/build/f7-firmware-D
+          ls -la flipperzero-firmware/build/f7-firmware-D/sdk-headers
       - name: Generate bindings
         run: cd tools && cargo run --bin generate-bindings ../flipperzero-firmware/build/f7-firmware-D/sdk-headers && cp bindings.rs ../crates/sys/src
       - name: Run cargo build
