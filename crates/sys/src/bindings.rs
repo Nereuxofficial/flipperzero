@@ -1635,13 +1635,6 @@ extern "C" {
     ) -> core::ffi::c_ulong;
 }
 extern "C" {
-    pub fn itoa(
-        arg1: core::ffi::c_int,
-        arg2: *mut core::ffi::c_char,
-        arg3: core::ffi::c_int,
-    ) -> *mut core::ffi::c_char;
-}
-extern "C" {
     pub fn random() -> core::ffi::c_long;
 }
 extern "C" {
@@ -1692,12 +1685,6 @@ extern "C" {
         arg2: core::ffi::c_int,
         arg3: core::ffi::c_uint,
     ) -> *mut core::ffi::c_void;
-}
-extern "C" {
-    pub fn strcat(
-        arg1: *mut core::ffi::c_char,
-        arg2: *const core::ffi::c_char,
-    ) -> *mut core::ffi::c_char;
 }
 extern "C" {
     pub fn strchr(arg1: *const core::ffi::c_char, arg2: core::ffi::c_int)
@@ -1753,12 +1740,6 @@ extern "C" {
 extern "C" {
     pub fn strstr(
         arg1: *const core::ffi::c_char,
-        arg2: *const core::ffi::c_char,
-    ) -> *mut core::ffi::c_char;
-}
-extern "C" {
-    pub fn strtok(
-        arg1: *mut core::ffi::c_char,
         arg2: *const core::ffi::c_char,
     ) -> *mut core::ffi::c_char;
 }
@@ -6030,7 +6011,7 @@ extern "C" {
     pub fn furi_hal_region_is_provisioned() -> bool;
 }
 extern "C" {
-    #[doc = "Get region name\n2 letter Region code according to iso 3166 standard There are 2 extra values that we use in special cases: RM, whats the reason you not doing a release? Waiting for my commits?\n* \"00\" - developer edition, unlocked\n* \"WW\" - world wide, region provisioned by default\n* \"--\" - no provisioned region\n\nReturns:\n\n* Pointer to string\n\n"]
+    #[doc = "Get region name\n2 letter Region code according to iso 3166 standard There are 2 extra values that we use in special cases:\n* \"00\" - developer edition, unlocked\n* \"WW\" - world wide, region provisioned by default\n* \"--\" - no provisioned region\n\nReturns:\n\n* Pointer to string\n\n"]
     pub fn furi_hal_region_get_name() -> *const core::ffi::c_char;
 }
 extern "C" {
@@ -7208,10 +7189,6 @@ extern "C" {
     pub fn version_get_version(v: *const Version) -> *const core::ffi::c_char;
 }
 extern "C" {
-    #[doc = "Get custom flipper name if set in version_set_custom_name\n\nReturns:\n\n* custom name or NULL\n\n# Arguments\n\n* `v` - pointer to Version data. NULL for currently running software.\n\n"]
-    pub fn version_get_custom_name(v: *const Version) -> *const core::ffi::c_char;
-}
-extern "C" {
     #[doc = "Get hardware target this firmware was built for\n\nReturns:\n\n* build date\n\n# Arguments\n\n* `v` - pointer to Version data. NULL for currently running software.\n\n"]
     pub fn version_get_target(v: *const Version) -> u8;
 }
@@ -7303,20 +7280,12 @@ extern "C" {
     pub fn furi_hal_version_get_hw_connect() -> u8;
 }
 extern "C" {
-    #[doc = "Get hardware region (fake) = 0\n\nReturns:\n\n* Hardware Region (fake)\n\n"]
+    #[doc = "Get hardware region\n\nReturns:\n\n* Hardware Region\n\n"]
     pub fn furi_hal_version_get_hw_region() -> FuriHalVersionRegion;
 }
 extern "C" {
-    #[doc = "Get hardware region name (fake) = R00\n\nReturns:\n\n* Hardware Region name (fake)\n\n"]
+    #[doc = "Get hardware region name\n\nReturns:\n\n* Hardware Region name\n\n"]
     pub fn furi_hal_version_get_hw_region_name() -> *const core::ffi::c_char;
-}
-extern "C" {
-    #[doc = "Get hardware region (OTP)\n\nReturns:\n\n* Hardware Region\n\n"]
-    pub fn furi_hal_version_get_hw_region_otp() -> FuriHalVersionRegion;
-}
-extern "C" {
-    #[doc = "Get hardware region name (OTP)\n\nReturns:\n\n* Hardware Region name\n\n"]
-    pub fn furi_hal_version_get_hw_region_name_otp() -> *const core::ffi::c_char;
 }
 extern "C" {
     #[doc = "Get hardware display id\n\nReturns:\n\n* Display id\n\n"]
@@ -7353,9 +7322,6 @@ extern "C" {
 extern "C" {
     #[doc = "Get const pointer to UID\n\nReturns:\n\n* pointer to UID\n\n"]
     pub fn furi_hal_version_uid() -> *const u8;
-}
-extern "C" {
-    pub fn furi_hal_version_uid_default() -> *const u8;
 }
 pub const GapEventType_GapEventTypeConnected: GapEventType = 0;
 pub const GapEventType_GapEventTypeDisconnected: GapEventType = 1;
@@ -7450,10 +7416,6 @@ fn bindgen_test_layout_GapEvent() {
 pub type GapEventCallback = ::core::option::Option<
     unsafe extern "C" fn(event: GapEvent, context: *mut core::ffi::c_void) -> bool,
 >;
-pub const GapPairing_GapPairingNone: GapPairing = 0;
-pub const GapPairing_GapPairingPinCodeShow: GapPairing = 1;
-pub const GapPairing_GapPairingPinCodeVerifyYesNo: GapPairing = 2;
-pub type GapPairing = core::ffi::c_uchar;
 pub const SerialServiceEventType_SerialServiceEventTypeDataReceived: SerialServiceEventType = 0;
 pub const SerialServiceEventType_SerialServiceEventTypeDataSent: SerialServiceEventType = 1;
 pub const SerialServiceEventType_SerialServiceEventTypesBleResetRequest: SerialServiceEventType = 2;
@@ -7996,36 +7958,6 @@ extern "C" {
 extern "C" {
     #[doc = "Get number of transmitted packets\n\nReturns:\n\n* packet count\n\n"]
     pub fn furi_hal_bt_get_transmitted_packets() -> u32;
-}
-extern "C" {
-    #[doc = "Reverse a MAC address byte order in-place\n\n# Arguments\n\n* `mac` - [Direction: In] mac address to reverse\n\n"]
-    pub fn furi_hal_bt_reverse_mac_addr(mac_addr: *mut u8);
-}
-extern "C" {
-    #[doc = "Modify profile advertisement name and restart bluetooth\n\n# Arguments\n\n* `profile` - [Direction: In] profile type\n* `name` - [Direction: In] new adv name\n\n"]
-    pub fn furi_hal_bt_set_profile_adv_name(
-        profile: FuriHalBtProfile,
-        name: *const core::ffi::c_char,
-    );
-}
-extern "C" {
-    pub fn furi_hal_bt_get_profile_adv_name(profile: FuriHalBtProfile) -> *const core::ffi::c_char;
-}
-extern "C" {
-    #[doc = "Modify profile mac address and restart bluetooth\n\n# Arguments\n\n* `profile` - [Direction: In] profile type\n* `mac` - [Direction: In] new mac address\n\n"]
-    pub fn furi_hal_bt_set_profile_mac_addr(profile: FuriHalBtProfile, mac_addr: *const u8);
-}
-extern "C" {
-    pub fn furi_hal_bt_get_profile_mac_addr(profile: FuriHalBtProfile) -> *const u8;
-}
-extern "C" {
-    pub fn furi_hal_bt_set_profile_pairing_method(
-        profile: FuriHalBtProfile,
-        pairing_method: GapPairing,
-    );
-}
-extern "C" {
-    pub fn furi_hal_bt_is_connected() -> bool;
 }
 extern "C" {
     #[doc = "Check & switch C2 to given mode\n\n# Arguments\n\n* `mode` - [Direction: In] mode to switch into\n\n"]
@@ -9143,7 +9075,7 @@ pub const UartIrqEvent_UartIrqEventRXNE: UartIrqEvent = 0;
 #[doc = "UART events\n\n"]
 pub type UartIrqEvent = core::ffi::c_uchar;
 extern "C" {
-    #[doc = "Init UART Configures GPIO to UART function, configures UART hardware, enables UART hardware\n\n# Arguments\n\n* `channel` - UART channel\n* `baud` - baudrate\n\n"]
+    #[doc = "Init UART Configures GPIO to UART function, сonfigures UART hardware, enables UART hardware\n\n# Arguments\n\n* `channel` - UART channel\n* `baud` - baudrate\n\n"]
     pub fn furi_hal_uart_init(channel: FuriHalUartId, baud: u32);
 }
 extern "C" {
@@ -9367,18 +9299,6 @@ extern "C" {
     pub fn furi_hal_subghz_set_frequency_and_path(value: u32) -> u32;
 }
 extern "C" {
-    #[doc = "Сheck if transmission is allowed on this frequency with your current config\n\nReturns:\n\n* true if allowed\n\n# Arguments\n\n* `value` - frequency in Hz\n\n"]
-    pub fn furi_hal_subghz_is_tx_allowed(value: u32) -> bool;
-}
-extern "C" {
-    #[doc = "Get the current rolling protocols counter ++/-- value\n\nReturns:\n\n* int8_t current value\n\n"]
-    pub fn furi_hal_subghz_get_rolling_counter_mult() -> i8;
-}
-extern "C" {
-    #[doc = "Set the current rolling protocols counter ++/-- value\n\n# Arguments\n\n* `mult` - int8_t = -1, -10, -100, 0, 1, 10, 100\n\n"]
-    pub fn furi_hal_subghz_set_rolling_counter_mult(mult: i8);
-}
-extern "C" {
     #[doc = "Set frequency\n\nReturns:\n\n* real frequency in Hz\n\n# Arguments\n\n* `value` - frequency in Hz\n\n"]
     pub fn furi_hal_subghz_set_frequency(value: u32) -> u32;
 }
@@ -9418,12 +9338,6 @@ extern "C" {
 extern "C" {
     #[doc = "Stop async transmission and cleanup resources Resets GPIO, TIM2, and DMA1\n\n"]
     pub fn furi_hal_subghz_stop_async_tx();
-}
-extern "C" {
-    pub fn furi_hal_subghz_set_ext_power_amp(enabled: bool);
-}
-extern "C" {
-    pub fn furi_hal_subghz_get_ext_power_amp() -> bool;
 }
 pub type FuriHalIbuttonEmulateCallback =
     ::core::option::Option<unsafe extern "C" fn(context: *mut core::ffi::c_void)>;
@@ -9997,14 +9911,6 @@ fn bindgen_test_layout_FuriHalNfcTxRxContext() {
             stringify!(sniff_context)
         )
     );
-}
-extern "C" {
-    #[doc = "Init nfc\n\n"]
-    pub fn furi_hal_nfc_init();
-}
-extern "C" {
-    #[doc = "Deinit nfc\n\n"]
-    pub fn furi_hal_nfc_deinit();
 }
 extern "C" {
     #[doc = "Check if nfc worker is busy\n\nReturns:\n\n* true if busy\n\n"]
@@ -11125,11 +11031,11 @@ extern "C" {
 pub type Storage_name_converter =
     ::core::option::Option<unsafe extern "C" fn(arg1: *mut FuriString)>;
 extern "C" {
-    #[doc = "Backs up internal storage to a tar archive\n\nReturns:\n\n* FS_Error operation result\n\n# Arguments\n\n* `api` - pointer to the api\n* `dstname` - destination archive path\n\n"]
+    #[doc = "Backs up internal storage to a tar archive\n\nReturns:\n\n* FS_Error operation result\n\n# Arguments\n\n* `api` - pointer to the api\n* `dstmane` - destination archive path\n\n"]
     pub fn storage_int_backup(api: *mut Storage, dstname: *const core::ffi::c_char) -> FS_Error;
 }
 extern "C" {
-    #[doc = "Restores internal storage from a tar archive\n\nReturns:\n\n* FS_Error operation result\n\n# Arguments\n\n* `api` - pointer to the api\n* `dstname` - archive path\n* `converter` - pointer to filename conversion function, may be NULL\n\n"]
+    #[doc = "Restores internal storage from a tar archive\n\nReturns:\n\n* FS_Error operation result\n\n# Arguments\n\n* `api` - pointer to the api\n* `dstmane` - archive path\n* `converter` - pointer to filename conversion function, may be NULL\n\n"]
     pub fn storage_int_restore(
         api: *mut Storage,
         dstname: *const core::ffi::c_char,
@@ -11318,8 +11224,7 @@ extern "C" {
         item_name: *mut FuriString,
     ) -> bool;
 }
-pub type SubGhzBegin =
-    ::core::option::Option<unsafe extern "C" fn(conf: *mut SubGhzDeviceConf) -> bool>;
+pub type SubGhzBegin = ::core::option::Option<unsafe extern "C" fn() -> bool>;
 pub type SubGhzEnd = ::core::option::Option<unsafe extern "C" fn()>;
 pub type SubGhzIsConnect = ::core::option::Option<unsafe extern "C" fn() -> bool>;
 pub type SubGhzReset = ::core::option::Option<unsafe extern "C" fn()>;
@@ -11703,58 +11608,6 @@ fn bindgen_test_layout_SubGhzDevice() {
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct SubGhzDeviceConf {
-    pub ver: u8,
-    pub extended_range: bool,
-    pub power_amp: bool,
-}
-#[test]
-fn bindgen_test_layout_SubGhzDeviceConf() {
-    const UNINIT: ::core::mem::MaybeUninit<SubGhzDeviceConf> = ::core::mem::MaybeUninit::uninit();
-    let ptr = UNINIT.as_ptr();
-    assert_eq!(
-        ::core::mem::size_of::<SubGhzDeviceConf>(),
-        3usize,
-        concat!("Size of: ", stringify!(SubGhzDeviceConf))
-    );
-    assert_eq!(
-        ::core::mem::align_of::<SubGhzDeviceConf>(),
-        1usize,
-        concat!("Alignment of ", stringify!(SubGhzDeviceConf))
-    );
-    assert_eq!(
-        unsafe { ::core::ptr::addr_of!((*ptr).ver) as usize - ptr as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(SubGhzDeviceConf),
-            "::",
-            stringify!(ver)
-        )
-    );
-    assert_eq!(
-        unsafe { ::core::ptr::addr_of!((*ptr).extended_range) as usize - ptr as usize },
-        1usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(SubGhzDeviceConf),
-            "::",
-            stringify!(extended_range)
-        )
-    );
-    assert_eq!(
-        unsafe { ::core::ptr::addr_of!((*ptr).power_amp) as usize - ptr as usize },
-        2usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(SubGhzDeviceConf),
-            "::",
-            stringify!(power_amp)
-        )
-    );
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
 pub struct Bt {
     _unused: [u8; 0],
 }
@@ -11798,35 +11651,6 @@ extern "C" {
 extern "C" {
     #[doc = "Set default keys storage file path\n\n# Arguments\n\n* `bt` - Bt instance\n\n"]
     pub fn bt_keys_storage_set_default_path(bt: *mut Bt);
-}
-extern "C" {
-    pub fn bt_set_profile_adv_name(bt: *mut Bt, fmt: *const core::ffi::c_char, ...);
-}
-extern "C" {
-    pub fn bt_get_profile_adv_name(bt: *mut Bt) -> *const core::ffi::c_char;
-}
-extern "C" {
-    pub fn bt_set_profile_mac_address(bt: *mut Bt, mac: *const u8);
-}
-extern "C" {
-    pub fn bt_get_profile_mac_address(bt: *mut Bt) -> *const u8;
-}
-extern "C" {
-    pub fn bt_remote_rssi(bt: *mut Bt, rssi: *mut u8) -> bool;
-}
-extern "C" {
-    pub fn bt_set_profile_pairing_method(bt: *mut Bt, pairing_method: GapPairing);
-}
-extern "C" {
-    pub fn bt_get_profile_pairing_method(bt: *mut Bt) -> GapPairing;
-}
-extern "C" {
-    #[doc = "Stop saving new peer key to flash (in .bt.keys file)\n\n"]
-    pub fn bt_disable_peer_key_update(bt: *mut Bt);
-}
-extern "C" {
-    #[doc = "Enable saving peer key to internal flash (enable by default)\n\n# Notes\n\n* This function should be called if bt_disable_peer_key_update was called before\n\n"]
-    pub fn bt_enable_peer_key_update(bt: *mut Bt);
 }
 #[doc = "Default, loader lock is used\n\n"]
 pub const CliCommandFlag_CliCommandFlagDefault: CliCommandFlag = 0;
@@ -11972,8 +11796,7 @@ pub const Font_FontPrimary: Font = 0;
 pub const Font_FontSecondary: Font = 1;
 pub const Font_FontKeyboard: Font = 2;
 pub const Font_FontBigNumbers: Font = 3;
-pub const Font_FontBatteryPercent: Font = 4;
-pub const Font_FontTotalNumber: Font = 5;
+pub const Font_FontTotalNumber: Font = 4;
 #[doc = "Fonts enumeration\n\n"]
 pub type Font = core::ffi::c_uchar;
 pub const Align_AlignLeft: Align = 0;
@@ -12090,10 +11913,6 @@ extern "C" {
 extern "C" {
     #[doc = "Get current font height\n\nReturns:\n\n* height in pixels.\n\n# Arguments\n\n* `canvas` - Canvas instance\n\n"]
     pub fn canvas_current_font_height(canvas: *const Canvas) -> u8;
-}
-extern "C" {
-    #[doc = "Get current font width\n\nReturns:\n\n* width in pixels.\n\n# Arguments\n\n* `canvas` - Canvas instance\n\n"]
-    pub fn canvas_current_font_width(canvas: *const Canvas) -> u8;
 }
 extern "C" {
     #[doc = "Get font parameters\n\nReturns:\n\n* pointer to CanvasFontParameters structure\n\n# Arguments\n\n* `canvas` - Canvas instance\n* `font` - Font\n\n"]
@@ -12233,18 +12052,8 @@ extern "C" {
     pub fn canvas_draw_rframe(canvas: *mut Canvas, x: u8, y: u8, width: u8, height: u8, radius: u8);
 }
 extern "C" {
-    #[doc = "Draw rounded-corner box of width, height at x,y, with round value radius\n\n# Arguments\n\n* `canvas` - Canvas instance\n* `x` - x coordinate\n* `y` - y coordinate\n* `width` - box width\n* `height` - box height\n* `radius` - box corner radius\n\n"]
+    #[doc = "Draw rounded-corner box of width, height at x,y, with round value raduis\n\n# Arguments\n\n* `canvas` - Canvas instance\n* `x` - x coordinate\n* `y` - y coordinate\n* `width` - box width\n* `height` - box height\n* `radius` - box corner radius\n\n"]
     pub fn canvas_draw_rbox(canvas: *mut Canvas, x: u8, y: u8, width: u8, height: u8, radius: u8);
-}
-extern "C" {
-    pub fn canvas_draw_icon_bitmap(
-        canvas: *mut Canvas,
-        x: u8,
-        y: u8,
-        w: i16,
-        h: i16,
-        icon: *const Icon,
-    );
 }
 #[doc = "Press event, emitted after debounce\n\n"]
 pub const InputType_InputTypePress: InputType = 0;
@@ -13047,18 +12856,6 @@ extern "C" {
     );
 }
 extern "C" {
-    pub fn elements_scrollable_text_line_str(
-        canvas: *mut Canvas,
-        x: u8,
-        y: u8,
-        width: u8,
-        string: *const core::ffi::c_char,
-        scroll: usize,
-        ellipsis: bool,
-        centered: bool,
-    );
-}
-extern "C" {
     #[doc = "Draw text box element\n\n# Arguments\n\n* `canvas` - Canvas instance\n* `x` - x coordinate\n* `y` - y coordinate\n* `width` - width to fit text\n* `height` - height to fit text\n* `horizontal` - Align instance\n* `vertical` - Align instance\n* `text` - [Direction: In] Formatted text. The following formats are available:\n  * text\\e#\"* - bold font is used\n  * text\\e*\"* - monospaced font is used\n  * text\\e!\"* - white text on black background\n* `strip_to_dots` - Strip text to ... if does not fit to width\n\n"]
     pub fn elements_text_box(
         canvas: *mut Canvas,
@@ -13367,15 +13164,11 @@ extern "C" {
     pub fn button_panel_reset(button_panel: *mut ButtonPanel);
 }
 extern "C" {
-    #[doc = "Resets selected_item_x and selected_item_y.\n\n# Arguments\n\n* `button_panel` - ButtonPanel instance\n\n"]
-    pub fn button_panel_reset_selection(button_panel: *mut ButtonPanel);
-}
-extern "C" {
     #[doc = "Reserve space for adding items.\nOne does not simply use button_panel_add_item() without this function. It should be allocated space for it first.\n\n# Arguments\n\n* `button_panel` - ButtonPanel instance\n* `reserve_x` - number of columns in button_panel\n* `reserve_y` - number of rows in button_panel\n\n"]
     pub fn button_panel_reserve(button_panel: *mut ButtonPanel, reserve_x: usize, reserve_y: usize);
 }
 extern "C" {
-    #[doc = "Add item to button_panel module.\nHave to set element in bounds of allocated size by X and by Y.\n\n# Arguments\n\n* `button_panel` - ButtonPanel instance\n* `index` - value to pass to callback\n* `matrix_place_x` - coordinates by x-axis on virtual grid, it is only used for navigation\n* `matrix_place_y` - coordinates by y-axis on virtual grid, it is only used for navigation\n* `x` - x-coordinate to draw icon on\n* `y` - y-coordinate to draw icon on\n* `icon_name` - name of the icon to draw\n* `icon_name_selected` - name of the icon to draw when current element is selected\n* `callback` - function to call when specific element is selected (pressed Ok on selected item)\n* `callback_context` - context to pass to callback\n\n"]
+    #[doc = "Add item to button_panel module.\nHave to set element in bounds of allocated size by X and by Y.\n\n# Arguments\n\n* `button_panel` - ButtonPanel instance\n* `index` - value to pass to callback\n* `matrix_place_x` - coordinates by x-axis on virtual grid, it is only used for navigation\n* `matrix_place_y` - coordinates by y-axis on virtual grid, it is only used for naviagation\n* `x` - x-coordinate to draw icon on\n* `y` - y-coordinate to draw icon on\n* `icon_name` - name of the icon to draw\n* `icon_name_selected` - name of the icon to draw when current element is selected\n* `callback` - function to call when specific element is selected (pressed Ok on selected item)\n* `callback_context` - context to pass to callback\n\n"]
     pub fn button_panel_add_item(
         button_panel: *mut ButtonPanel,
         index: u32,
@@ -13586,7 +13379,6 @@ pub type BrowserWorkerListItemCallback = ::core::option::Option<
     unsafe extern "C" fn(
         context: *mut core::ffi::c_void,
         item_path: *mut FuriString,
-        idx: u32,
         is_folder: bool,
         is_last: bool,
     ),
@@ -13740,7 +13532,7 @@ extern "C" {
     pub fn popup_get_view(popup: *mut Popup) -> *mut View;
 }
 extern "C" {
-    #[doc = "Set popup callback function\n\n# Arguments\n\n* `popup` - Popup instance\n* `callback` - PopupCallback\n\n"]
+    #[doc = "Set popup header text\n\n# Arguments\n\n* `popup` - Popup instance\n* `callback` - PopupCallback\n\n"]
     pub fn popup_set_callback(popup: *mut Popup, callback: PopupCallback);
 }
 extern "C" {
@@ -13819,18 +13611,6 @@ extern "C" {
     );
 }
 extern "C" {
-    #[doc = "Add lockable item to submenu\n\n# Arguments\n\n* `submenu` - Submenu instance\n* `label` - menu item label\n* `index` - menu item index, used for callback, may be the same with other items\n* `callback` - menu item callback\n* `callback_context` - menu item callback context\n* `locked` - menu item locked status\n* `locked_message` - menu item locked message\n\n"]
-    pub fn submenu_add_lockable_item(
-        submenu: *mut Submenu,
-        label: *const core::ffi::c_char,
-        index: u32,
-        callback: SubmenuItemCallback,
-        callback_context: *mut core::ffi::c_void,
-        locked: bool,
-        locked_message: *const core::ffi::c_char,
-    );
-}
-extern "C" {
     #[doc = "Remove all items from submenu\n\n# Arguments\n\n* `submenu` - Submenu instance\n\n"]
     pub fn submenu_reset(submenu: *mut Submenu);
 }
@@ -13841,10 +13621,6 @@ extern "C" {
 extern "C" {
     #[doc = "Set optional header for submenu\n\n# Arguments\n\n* `submenu` - Submenu instance\n* `header` - header to set\n\n"]
     pub fn submenu_set_header(submenu: *mut Submenu, header: *const core::ffi::c_char);
-}
-extern "C" {
-    #[doc = "Set Orientation\n\n# Arguments\n\n* `submenu` - Submenu instance\n* `orientation` - either vertical or horizontal\n\n"]
-    pub fn submenu_set_orientation(submenu: *mut Submenu, orientation: ViewOrientation);
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -13956,9 +13732,6 @@ extern "C" {
     );
 }
 extern "C" {
-    pub fn text_input_set_minimum_length(text_input: *mut TextInput, minimum_length: usize);
-}
-extern "C" {
     pub fn text_input_get_validator_callback(
         text_input: *mut TextInput,
     ) -> TextInputValidatorCallback;
@@ -14044,14 +13817,6 @@ extern "C" {
     pub fn variable_item_set_current_value_text(
         item: *mut VariableItem,
         current_value_text: *const core::ffi::c_char,
-    );
-}
-extern "C" {
-    #[doc = "Set item locked state and text\n\n# Arguments\n\n* `item` - VariableItem* instance\n* `locked` - Is item locked boolean\n* `locked_message` - The locked message text\n\n"]
-    pub fn variable_item_set_locked(
-        item: *mut VariableItem,
-        locked: bool,
-        locked_message: *const core::ffi::c_char,
     );
 }
 extern "C" {
@@ -14515,8 +14280,6 @@ pub const LoaderStatus_LoaderStatusOk: LoaderStatus = 0;
 pub const LoaderStatus_LoaderStatusErrorAppStarted: LoaderStatus = 1;
 pub const LoaderStatus_LoaderStatusErrorUnknownApp: LoaderStatus = 2;
 pub const LoaderStatus_LoaderStatusErrorInternal: LoaderStatus = 3;
-pub const LoaderStatus_LoaderStatusErrorApiMismatch: LoaderStatus = 4;
-pub const LoaderStatus_LoaderStatusErrorApiMismatchExit: LoaderStatus = 5;
 pub type LoaderStatus = core::ffi::c_uchar;
 extern "C" {
     #[doc = "Start application\n\nReturns:\n\n* LoaderStatus\n\n# Arguments\n\n* `instance` - [Direction: In] loader instance\n* `name` - [Direction: In] application name\n* `args` - [Direction: In] application arguments\n* `error_message` - [Direction: In, Out] detailed error message, can be NULL\n\n"]
@@ -16343,10 +16106,6 @@ extern "C" {
     #[doc = "Set consumer key to released state and send HID report\n\n# Arguments\n\n* `button` - key code\n\n"]
     pub fn furi_hal_bt_hid_consumer_key_release_all() -> bool;
 }
-extern "C" {
-    #[doc = "Retrieves LED state from remote BT HID host\n\nReturns:\n\n* (look at HID usage page to know what each bit of the returned byte means) NB: RFU bit has been shifted out in the returned octet so USB defines should work\n\n"]
-    pub fn furi_hal_bt_hid_get_led_state() -> u8;
-}
 #[doc = "New data obtained\n\n"]
 pub const FuriHalInfraredTxGetDataState_FuriHalInfraredTxGetDataStateOk:
     FuriHalInfraredTxGetDataState = 0;
@@ -16375,12 +16134,6 @@ pub type FuriHalInfraredRxCaptureCallback = ::core::option::Option<
 #[doc = "Signature of callback function for reaching silence timeout on INFRARED port.\n\n# Arguments\n\n* `ctx[in]` - context to pass to callback\n\n"]
 pub type FuriHalInfraredRxTimeoutCallback =
     ::core::option::Option<unsafe extern "C" fn(ctx: *mut core::ffi::c_void)>;
-extern "C" {
-    pub fn furi_hal_infrared_set_debug_out(enable: bool);
-}
-extern "C" {
-    pub fn furi_hal_infrared_get_debug_out_status() -> bool;
-}
 extern "C" {
     #[doc = "Initialize INFRARED RX timer to receive interrupts.\nIt provides interrupts for every RX-signal edge changing with its duration.\n\n"]
     pub fn furi_hal_infrared_async_rx_start();
@@ -18391,9 +18144,6 @@ extern "C" {
     #[doc = "Write T5577 tag data to tag\n\n# Arguments\n\n* `data` - \n\n"]
     pub fn t5577_write(data: *mut LFRFIDT5577);
 }
-extern "C" {
-    pub fn t5577_write_with_pass(data: *mut LFRFIDT5577, password: u32);
-}
 pub const LFRFIDProtocol_LFRFIDProtocolEM4100: LFRFIDProtocol = 0;
 pub const LFRFIDProtocol_LFRFIDProtocolH10301: LFRFIDProtocol = 1;
 pub const LFRFIDProtocol_LFRFIDProtocolIdteck: LFRFIDProtocol = 2;
@@ -19128,7 +18878,7 @@ extern "C" {
         -> bool;
 }
 extern "C" {
-    #[doc = "Get key at target offset as FuriString*\n\nReturns:\n\n* true on success\n\n# Arguments\n\n* `dict` - MfClassicDict instance\n* `key` - [Direction: In, Out] Found key destination buffer\n* `target` - [Direction: In] Target offset from current position\n\n"]
+    #[doc = "Get key at target offset as string_t\n\nReturns:\n\n* true on success\n\n# Arguments\n\n* `dict` - MfClassicDict instance\n* `key` - [Direction: In, Out] Found key destination buffer\n* `target` - [Direction: In] Target offset from current position\n\n"]
     pub fn mf_classic_dict_get_key_at_index_str(
         dict: *mut MfClassicDict,
         key: *mut FuriString,
@@ -21752,8 +21502,7 @@ pub const NfcReadMode_NfcReadModeAuto: NfcReadMode = 0;
 pub const NfcReadMode_NfcReadModeMfClassic: NfcReadMode = 1;
 pub const NfcReadMode_NfcReadModeMfUltralight: NfcReadMode = 2;
 pub const NfcReadMode_NfcReadModeMfDesfire: NfcReadMode = 3;
-pub const NfcReadMode_NfcReadModeEMV: NfcReadMode = 4;
-pub const NfcReadMode_NfcReadModeNFCA: NfcReadMode = 5;
+pub const NfcReadMode_NfcReadModeNFCA: NfcReadMode = 4;
 pub type NfcReadMode = core::ffi::c_uchar;
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -22172,15 +21921,6 @@ extern "C" {
     pub static nfc_generators: [*const NfcGenerator; 0usize];
 }
 extern "C" {
-    pub fn nfc_generate_mf_classic_ext(
-        data: *mut NfcDeviceData,
-        uid_len: u8,
-        type_: MfClassicType,
-        random_uid: bool,
-        uid: *mut u8,
-    );
-}
-extern "C" {
     pub fn nfc_get_dev_type(type_: FuriHalNfcType) -> *const core::ffi::c_char;
 }
 extern "C" {
@@ -22223,31 +21963,30 @@ pub const NfcWorkerEvent_NfcWorkerEventReadMfDesfire: NfcWorkerEvent = 56;
 pub const NfcWorkerEvent_NfcWorkerEventReadMfClassicDone: NfcWorkerEvent = 57;
 pub const NfcWorkerEvent_NfcWorkerEventReadMfClassicLoadKeyCache: NfcWorkerEvent = 58;
 pub const NfcWorkerEvent_NfcWorkerEventReadMfClassicDictAttackRequired: NfcWorkerEvent = 59;
-pub const NfcWorkerEvent_NfcWorkerEventReadBankCard: NfcWorkerEvent = 60;
-pub const NfcWorkerEvent_NfcWorkerEventReadNfcV: NfcWorkerEvent = 61;
-pub const NfcWorkerEvent_NfcWorkerEventSuccess: NfcWorkerEvent = 62;
-pub const NfcWorkerEvent_NfcWorkerEventFail: NfcWorkerEvent = 63;
-pub const NfcWorkerEvent_NfcWorkerEventAborted: NfcWorkerEvent = 64;
-pub const NfcWorkerEvent_NfcWorkerEventCardDetected: NfcWorkerEvent = 65;
-pub const NfcWorkerEvent_NfcWorkerEventNoCardDetected: NfcWorkerEvent = 66;
-pub const NfcWorkerEvent_NfcWorkerEventWrongCardDetected: NfcWorkerEvent = 67;
-pub const NfcWorkerEvent_NfcWorkerEventNoDictFound: NfcWorkerEvent = 68;
-pub const NfcWorkerEvent_NfcWorkerEventNewSector: NfcWorkerEvent = 69;
-pub const NfcWorkerEvent_NfcWorkerEventNewDictKeyBatch: NfcWorkerEvent = 70;
-pub const NfcWorkerEvent_NfcWorkerEventFoundKeyA: NfcWorkerEvent = 71;
-pub const NfcWorkerEvent_NfcWorkerEventFoundKeyB: NfcWorkerEvent = 72;
-pub const NfcWorkerEvent_NfcWorkerEventKeyAttackStart: NfcWorkerEvent = 73;
-pub const NfcWorkerEvent_NfcWorkerEventKeyAttackStop: NfcWorkerEvent = 74;
-pub const NfcWorkerEvent_NfcWorkerEventKeyAttackNextSector: NfcWorkerEvent = 75;
-pub const NfcWorkerEvent_NfcWorkerEventWrongCard: NfcWorkerEvent = 76;
-pub const NfcWorkerEvent_NfcWorkerEventDetectReaderDetected: NfcWorkerEvent = 77;
-pub const NfcWorkerEvent_NfcWorkerEventDetectReaderLost: NfcWorkerEvent = 78;
-pub const NfcWorkerEvent_NfcWorkerEventDetectReaderMfkeyCollected: NfcWorkerEvent = 79;
-pub const NfcWorkerEvent_NfcWorkerEventMfUltralightPassKey: NfcWorkerEvent = 80;
-pub const NfcWorkerEvent_NfcWorkerEventMfUltralightPwdAuth: NfcWorkerEvent = 81;
-pub const NfcWorkerEvent_NfcWorkerEventNfcVPassKey: NfcWorkerEvent = 82;
-pub const NfcWorkerEvent_NfcWorkerEventNfcVCommandExecuted: NfcWorkerEvent = 83;
-pub const NfcWorkerEvent_NfcWorkerEventNfcVContentChanged: NfcWorkerEvent = 84;
+pub const NfcWorkerEvent_NfcWorkerEventReadNfcV: NfcWorkerEvent = 60;
+pub const NfcWorkerEvent_NfcWorkerEventSuccess: NfcWorkerEvent = 61;
+pub const NfcWorkerEvent_NfcWorkerEventFail: NfcWorkerEvent = 62;
+pub const NfcWorkerEvent_NfcWorkerEventAborted: NfcWorkerEvent = 63;
+pub const NfcWorkerEvent_NfcWorkerEventCardDetected: NfcWorkerEvent = 64;
+pub const NfcWorkerEvent_NfcWorkerEventNoCardDetected: NfcWorkerEvent = 65;
+pub const NfcWorkerEvent_NfcWorkerEventWrongCardDetected: NfcWorkerEvent = 66;
+pub const NfcWorkerEvent_NfcWorkerEventNoDictFound: NfcWorkerEvent = 67;
+pub const NfcWorkerEvent_NfcWorkerEventNewSector: NfcWorkerEvent = 68;
+pub const NfcWorkerEvent_NfcWorkerEventNewDictKeyBatch: NfcWorkerEvent = 69;
+pub const NfcWorkerEvent_NfcWorkerEventFoundKeyA: NfcWorkerEvent = 70;
+pub const NfcWorkerEvent_NfcWorkerEventFoundKeyB: NfcWorkerEvent = 71;
+pub const NfcWorkerEvent_NfcWorkerEventKeyAttackStart: NfcWorkerEvent = 72;
+pub const NfcWorkerEvent_NfcWorkerEventKeyAttackStop: NfcWorkerEvent = 73;
+pub const NfcWorkerEvent_NfcWorkerEventKeyAttackNextSector: NfcWorkerEvent = 74;
+pub const NfcWorkerEvent_NfcWorkerEventWrongCard: NfcWorkerEvent = 75;
+pub const NfcWorkerEvent_NfcWorkerEventDetectReaderDetected: NfcWorkerEvent = 76;
+pub const NfcWorkerEvent_NfcWorkerEventDetectReaderLost: NfcWorkerEvent = 77;
+pub const NfcWorkerEvent_NfcWorkerEventDetectReaderMfkeyCollected: NfcWorkerEvent = 78;
+pub const NfcWorkerEvent_NfcWorkerEventMfUltralightPassKey: NfcWorkerEvent = 79;
+pub const NfcWorkerEvent_NfcWorkerEventMfUltralightPwdAuth: NfcWorkerEvent = 80;
+pub const NfcWorkerEvent_NfcWorkerEventNfcVPassKey: NfcWorkerEvent = 81;
+pub const NfcWorkerEvent_NfcWorkerEventNfcVCommandExecuted: NfcWorkerEvent = 82;
+pub const NfcWorkerEvent_NfcWorkerEventNfcVContentChanged: NfcWorkerEvent = 83;
 pub type NfcWorkerEvent = core::ffi::c_uchar;
 pub type NfcWorkerCallback = ::core::option::Option<
     unsafe extern "C" fn(event: NfcWorkerEvent, context: *mut core::ffi::c_void) -> bool,
@@ -23034,21 +22773,6 @@ extern "C" {
 extern "C" {
     pub fn LL_SetSystemCoreClock(HCLKFrequency: u32);
 }
-extern "C" {
-    pub fn subghz_custom_btn_set(btn_id: u8) -> bool;
-}
-extern "C" {
-    pub fn subghz_custom_btn_get() -> u8;
-}
-extern "C" {
-    pub fn subghz_custom_btn_get_original() -> u8;
-}
-extern "C" {
-    pub fn subghz_custom_btns_reset();
-}
-extern "C" {
-    pub fn subghz_custom_btn_is_allowed() -> bool;
-}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SubGhzBlockDecoder {
@@ -23309,10 +23033,6 @@ extern "C" {
         instance: *mut SubGhzEnvironment,
         idx: usize,
     ) -> *const core::ffi::c_char;
-}
-extern "C" {
-    #[doc = "Resetting the parameters used in the keeloq protocol.\n\n# Arguments\n\n* `instance` - Pointer to a SubGhzEnvironment instance\n\n"]
-    pub fn subghz_environment_reset_keeloq(instance: *mut SubGhzEnvironment);
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -23631,7 +23351,6 @@ pub const SubGhzProtocolType_SubGhzProtocolTypeDynamic: SubGhzProtocolType = 2;
 pub const SubGhzProtocolType_SubGhzProtocolTypeRAW: SubGhzProtocolType = 3;
 pub const SubGhzProtocolType_SubGhzProtocolWeatherStation: SubGhzProtocolType = 4;
 pub const SubGhzProtocolType_SubGhzProtocolCustom: SubGhzProtocolType = 5;
-pub const SubGhzProtocolType_SubGhzProtocolTypeBinRAW: SubGhzProtocolType = 6;
 pub type SubGhzProtocolType = core::ffi::c_uchar;
 pub const SubGhzProtocolFlag_SubGhzProtocolFlag_RAW: SubGhzProtocolFlag = 1;
 pub const SubGhzProtocolFlag_SubGhzProtocolFlag_Decodable: SubGhzProtocolFlag = 2;
@@ -23644,9 +23363,6 @@ pub const SubGhzProtocolFlag_SubGhzProtocolFlag_Save: SubGhzProtocolFlag = 128;
 pub const SubGhzProtocolFlag_SubGhzProtocolFlag_Load: SubGhzProtocolFlag = 256;
 pub const SubGhzProtocolFlag_SubGhzProtocolFlag_Send: SubGhzProtocolFlag = 512;
 pub const SubGhzProtocolFlag_SubGhzProtocolFlag_BinRAW: SubGhzProtocolFlag = 1024;
-pub const SubGhzProtocolFlag_SubGhzProtocolFlag_StarLine: SubGhzProtocolFlag = 2048;
-pub const SubGhzProtocolFlag_SubGhzProtocolFlag_AutoAlarms: SubGhzProtocolFlag = 4096;
-pub const SubGhzProtocolFlag_SubGhzProtocolFlag_Magelan: SubGhzProtocolFlag = 8192;
 pub type SubGhzProtocolFlag = core::ffi::c_ushort;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -23727,13 +23443,10 @@ fn bindgen_test_layout_SubGhzProtocol() {
 pub struct SubGhzBlockGeneric {
     pub protocol_name: *const core::ffi::c_char,
     pub data: u64,
-    pub data_2: u64,
     pub serial: u32,
     pub data_count_bit: u16,
     pub btn: u8,
     pub cnt: u32,
-    pub cnt_2: u8,
-    pub seed: u32,
 }
 #[test]
 fn bindgen_test_layout_SubGhzBlockGeneric() {
@@ -23741,7 +23454,7 @@ fn bindgen_test_layout_SubGhzBlockGeneric() {
     let ptr = UNINIT.as_ptr();
     assert_eq!(
         ::core::mem::size_of::<SubGhzBlockGeneric>(),
-        48usize,
+        32usize,
         concat!("Size of: ", stringify!(SubGhzBlockGeneric))
     );
     assert_eq!(
@@ -23770,18 +23483,8 @@ fn bindgen_test_layout_SubGhzBlockGeneric() {
         )
     );
     assert_eq!(
-        unsafe { ::core::ptr::addr_of!((*ptr).data_2) as usize - ptr as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(SubGhzBlockGeneric),
-            "::",
-            stringify!(data_2)
-        )
-    );
-    assert_eq!(
         unsafe { ::core::ptr::addr_of!((*ptr).serial) as usize - ptr as usize },
-        24usize,
+        16usize,
         concat!(
             "Offset of field: ",
             stringify!(SubGhzBlockGeneric),
@@ -23791,7 +23494,7 @@ fn bindgen_test_layout_SubGhzBlockGeneric() {
     );
     assert_eq!(
         unsafe { ::core::ptr::addr_of!((*ptr).data_count_bit) as usize - ptr as usize },
-        28usize,
+        20usize,
         concat!(
             "Offset of field: ",
             stringify!(SubGhzBlockGeneric),
@@ -23801,7 +23504,7 @@ fn bindgen_test_layout_SubGhzBlockGeneric() {
     );
     assert_eq!(
         unsafe { ::core::ptr::addr_of!((*ptr).btn) as usize - ptr as usize },
-        30usize,
+        22usize,
         concat!(
             "Offset of field: ",
             stringify!(SubGhzBlockGeneric),
@@ -23811,32 +23514,12 @@ fn bindgen_test_layout_SubGhzBlockGeneric() {
     );
     assert_eq!(
         unsafe { ::core::ptr::addr_of!((*ptr).cnt) as usize - ptr as usize },
-        32usize,
+        24usize,
         concat!(
             "Offset of field: ",
             stringify!(SubGhzBlockGeneric),
             "::",
             stringify!(cnt)
-        )
-    );
-    assert_eq!(
-        unsafe { ::core::ptr::addr_of!((*ptr).cnt_2) as usize - ptr as usize },
-        36usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(SubGhzBlockGeneric),
-            "::",
-            stringify!(cnt_2)
-        )
-    );
-    assert_eq!(
-        unsafe { ::core::ptr::addr_of!((*ptr).seed) as usize - ptr as usize },
-        40usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(SubGhzBlockGeneric),
-            "::",
-            stringify!(seed)
         )
     );
 }
@@ -24276,58 +23959,6 @@ extern "C" {
         decoder_name: *const core::ffi::c_char,
     ) -> *mut SubGhzProtocolDecoderBase;
 }
-pub type SubGhzFileEncoderWorkerCallbackEnd =
-    ::core::option::Option<unsafe extern "C" fn(context: *mut core::ffi::c_void)>;
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct SubGhzFileEncoderWorker {
-    _unused: [u8; 0],
-}
-extern "C" {
-    #[doc = "End callback SubGhzWorker.\n\n# Arguments\n\n* `instance` - SubGhzFileEncoderWorker instance\n* `callback` - SubGhzFileEncoderWorkerCallbackEnd callback\n\n"]
-    pub fn subghz_file_encoder_worker_callback_end(
-        instance: *mut SubGhzFileEncoderWorker,
-        callback_end: SubGhzFileEncoderWorkerCallbackEnd,
-        context_end: *mut core::ffi::c_void,
-    );
-}
-extern "C" {
-    #[doc = "Allocate SubGhzFileEncoderWorker.\n\nReturns:\n\n* SubGhzFileEncoderWorker* pointer to a SubGhzFileEncoderWorker instance\n\n"]
-    pub fn subghz_file_encoder_worker_alloc() -> *mut SubGhzFileEncoderWorker;
-}
-extern "C" {
-    #[doc = "Free SubGhzFileEncoderWorker.\n\n# Arguments\n\n* `instance` - Pointer to a SubGhzFileEncoderWorker instance\n\n"]
-    pub fn subghz_file_encoder_worker_free(instance: *mut SubGhzFileEncoderWorker);
-}
-extern "C" {
-    #[doc = "Get a description of the progress.\n\n# Arguments\n\n* `instance` - Pointer to a SubGhzFileEncoderWorker instance\n* `output` - \n\n"]
-    pub fn subghz_file_encoder_worker_get_text_progress(
-        instance: *mut SubGhzFileEncoderWorker,
-        output: *mut FuriString,
-    );
-}
-extern "C" {
-    #[doc = "Getting the level and duration of the upload to be loaded into DMA.\n\nReturns:\n\n* LevelDuration\n\n# Arguments\n\n* `context` - Pointer to a SubGhzFileEncoderWorker instance\n\n"]
-    pub fn subghz_file_encoder_worker_get_level_duration(
-        context: *mut core::ffi::c_void,
-    ) -> LevelDuration;
-}
-extern "C" {
-    #[doc = "Start SubGhzFileEncoderWorker.\n\nReturns:\n\n* bool - true if ok\n\n# Arguments\n\n* `instance` - Pointer to a SubGhzFileEncoderWorker instance\n* `file_path` - File path\n* `radio_device_name` - Radio device name\n\n"]
-    pub fn subghz_file_encoder_worker_start(
-        instance: *mut SubGhzFileEncoderWorker,
-        file_path: *const core::ffi::c_char,
-        radio_device_name: *const core::ffi::c_char,
-    ) -> bool;
-}
-extern "C" {
-    #[doc = "Stop SubGhzFileEncoderWorker\n\n# Arguments\n\n* `instance` - Pointer to a SubGhzFileEncoderWorker instance\n\n"]
-    pub fn subghz_file_encoder_worker_stop(instance: *mut SubGhzFileEncoderWorker);
-}
-extern "C" {
-    #[doc = "Check if worker is running\n\nReturns:\n\n* bool - true if running\n\n# Arguments\n\n* `instance` - Pointer to a SubGhzFileEncoderWorker instance\n\n"]
-    pub fn subghz_file_encoder_worker_is_running(instance: *mut SubGhzFileEncoderWorker) -> bool;
-}
 extern "C" {
     pub static subghz_protocol_registry: SubGhzProtocolRegistry;
 }
@@ -24358,18 +23989,6 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    pub fn subghz_protocol_keeloq_bft_create_data(
-        context: *mut core::ffi::c_void,
-        flipper_format: *mut FlipperFormat,
-        serial: u32,
-        btn: u8,
-        cnt: u16,
-        seed: u32,
-        manufacture_name: *const core::ffi::c_char,
-        preset: *mut SubGhzRadioPreset,
-    ) -> bool;
-}
-extern "C" {
     pub fn subghz_protocol_decoder_bin_raw_data_input_rssi(
         instance: *mut SubGhzProtocolDecoderBinRAW,
         rssi: f32,
@@ -24377,58 +23996,6 @@ extern "C" {
 }
 extern "C" {
     pub fn subghz_protocol_secplus_v1_check_fixed(fixed: u32) -> bool;
-}
-extern "C" {
-    pub fn subghz_protocol_faac_slh_create_data(
-        context: *mut core::ffi::c_void,
-        flipper_format: *mut FlipperFormat,
-        serial: u32,
-        btn: u8,
-        cnt: u32,
-        seed: u32,
-        manufacture_name: *const core::ffi::c_char,
-        preset: *mut SubGhzRadioPreset,
-    ) -> bool;
-}
-extern "C" {
-    pub fn subghz_protocol_came_atomo_create_data(
-        context: *mut core::ffi::c_void,
-        flipper_format: *mut FlipperFormat,
-        serial: u32,
-        cnt: u16,
-        preset: *mut SubGhzRadioPreset,
-    ) -> bool;
-}
-extern "C" {
-    pub fn subghz_protocol_somfy_telis_create_data(
-        context: *mut core::ffi::c_void,
-        flipper_format: *mut FlipperFormat,
-        serial: u32,
-        btn: u8,
-        cnt: u16,
-        preset: *mut SubGhzRadioPreset,
-    ) -> bool;
-}
-extern "C" {
-    pub fn subghz_protocol_nice_flor_s_create_data(
-        context: *mut core::ffi::c_void,
-        flipper_format: *mut FlipperFormat,
-        serial: u32,
-        btn: u8,
-        cnt: u16,
-        preset: *mut SubGhzRadioPreset,
-        nice_one: bool,
-    ) -> bool;
-}
-extern "C" {
-    pub fn subghz_protocol_alutech_at_4n_create_data(
-        context: *mut core::ffi::c_void,
-        flipper_format: *mut FlipperFormat,
-        serial: u32,
-        btn: u8,
-        cnt: u16,
-        preset: *mut SubGhzRadioPreset,
-    ) -> bool;
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -24501,15 +24068,6 @@ extern "C" {
 }
 extern "C" {
     pub fn subghz_setting_get_default_frequency(instance: *mut SubGhzSetting) -> u32;
-}
-extern "C" {
-    pub fn subghz_setting_set_default_frequency(
-        instance: *mut SubGhzSetting,
-        frequency_to_setup: u32,
-    );
-}
-extern "C" {
-    pub fn subghz_setting_customs_presets_to_log(instance: *mut SubGhzSetting) -> u8;
 }
 extern "C" {
     pub fn subghz_devices_init();
