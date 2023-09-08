@@ -50,9 +50,5 @@ jobs:
           git config --local user.email "nightly-bot@spam4.me"
           git config --local user.name "Nightly Bot"
           git add crates/sys/src/bindings.rs
-          git commit -m "Update bindings"
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PAT_TOKEN }}
-          branch: nightly
+          git commit -m "Update bindings.rs"
+          git push
