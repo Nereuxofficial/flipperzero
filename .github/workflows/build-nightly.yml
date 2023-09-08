@@ -35,8 +35,10 @@ jobs:
         run: cd flipperzero-firmware && ./fbt
       - name: Install libudev-dev
         run: sudo apt install libudev-dev
+      - name: ls for debug
+        run: ls -la
       - name: Generate bindings
-        run: cd tools && cargo run --bin generate-bindings ../../flipperzero-firmware/build/f7-firmware-D/sdk-headers && cp bindings.rs ../crates/sys/src
+        run: cd tools && cargo run --bin generate-bindings ../flipperzero-firmware/build/f7-firmware-D/sdk-headers && cp bindings.rs ../crates/sys/src
       - name: Run cargo build
         run: cd crates && cargo build --release
       - name: Commit Files
